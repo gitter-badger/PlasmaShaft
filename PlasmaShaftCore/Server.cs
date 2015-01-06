@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Net.Sockets;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using PlasmaShaftCore.Networking;
 using PlasmaShaftCore.World;
@@ -18,6 +22,8 @@ namespace PlasmaShaftCore
         private static ClientListener listener;
         private static Process thisProcess = Process.GetCurrentProcess();
         public static event LogMsg OnLog = null;
+		public static double LastHeartbeatTook { get; set; }
+		private static bool Initialized = false;
         
         #region SETUP
 
@@ -49,7 +55,10 @@ namespace PlasmaShaftCore
             InitialisePositionUpdater();
             CreateDirectories();
             LoadMainLevel();
-
+			Salt = GetRandomString(32);
+			Thread T2 = new Thread(TimerThread, 1048576);
+			T2.Name = "Heartbeat thread";
+			T2.Start();
             if (!GUIMode) Console.ReadKey();
         }
 
@@ -106,15 +115,113 @@ namespace PlasmaShaftCore
             OnLog(message, type);
         }
 
+		public static string GetRandomString( int chars ) {
+			RandomNumberGenerator prng = RandomNumberGenerator.Create();
+			StringBuilder sb = new StringBuilder();
+			byte[] oneChar = new byte[1];
+			while( sb.Length < chars ) {
+				prng.GetBytes( oneChar );
+				if( oneChar[0] >= 48 && oneChar[0] <= 57 ||
+				   oneChar[0] >= 65 && oneChar[0] <= 90 ||
+				   oneChar[0] >= 97 && oneChar[0] <= 122 ) {
+					//if( oneChar[0] >= 33 && oneChar[0] <= 126 ) {
+					sb.Append( (char)oneChar[0] );
+				}
+			}
+			return sb.ToString();
+		}
+
         #region == PROPERTIES ==
 
-        public static string Name = "XCraft 1.0";
-        public static string MOTD = "Crafting all the way";
+		public static string Name = "PlasmaShaft [Default]";
+        public static string MOTD = "+hax";
         public static int MaxClients = 20;
-        public static int Port = 25566;
+        public static int Port = 25565;
+		public static string Salt { get; set; }
+		public static bool Public = true;
 
         public static Level MainLevel;
 
         #endregion
-    }
+
+		#region == HEARTBEAT ==
+
+		private static void TimerThread()
+		{
+			Stopwatch clock = new Stopwatch();
+			clock.Start();
+			double lastHeartbeat = -30;
+
+			if (clock.Elapsed.TotalSeconds - lastHeartbeat >= 30) {
+				double now = clock.Elapsed.TotalSeconds;
+				Heartbeat ();
+				GC.Collect ();
+				lastHeartbeat = clock.Elapsed.TotalSeconds;
+				LastHeartbeatTook = Math.Round (10 * (clock.Elapsed.TotalSeconds - now)) / 10.0;
+			}
+
+			Thread.Sleep(10);
+		}
+
+		private static void Heartbeat()
+		{
+			try {
+
+				StringBuilder builder = new StringBuilder();
+
+				builder.Append("port=");
+				builder.Append(Port.ToString());
+
+				builder.Append("&users=");
+				builder.Append(Player.players.Count);
+
+				builder.Append("&max=");
+				builder.Append(MaxClients);
+
+				builder.Append("&name=");
+				builder.Append(Name);
+
+				builder.Append("&public=");
+				builder.Append(Server.Public.ToString());
+
+				builder.Append("&version=7");
+
+				builder.Append("&salt=");
+				builder.Append(Salt);
+
+				builder.Append("&software=PlasmaShaft");
+				string postcontent = builder.ToString();
+				byte[] post = Encoding.ASCII.GetBytes(postcontent);
+
+				HttpWebRequest req = (HttpWebRequest)WebRequest.Create("http://www.classicube.net/heartbeat.jsp");
+				req.ContentType = "application/x-www-form-urlencoded";
+				req.Method = "POST";
+				req.ContentLength = post.Length;
+				Stream o = req.GetRequestStream();
+				o.Write(post, 0, post.Length);
+				o.Close();
+
+				WebResponse resp = req.GetResponse();
+				StreamReader sr = new StreamReader(resp.GetResponseStream());
+				string data = sr.ReadToEnd().Trim();
+
+				if (!Initialized)
+				{
+					if (!data.Substring(0, 7).Contains("://") && !data.Substring(0, 7).Contains("www")) {
+						Log("Heartbeat successful, but no URL returned!", LogMessage.ERROR);
+					} else {
+						int i = data.IndexOf('=');
+						Log("URL found: ");
+						Log(data);
+
+						Initialized = true;
+					}
+				}
+			}
+			catch(WebException e) {
+				Log("Unable to heartbeat " + e.ToString(), LogMessage.ERROR);
+			}
+		}
+		#endregion
+	}
 }
