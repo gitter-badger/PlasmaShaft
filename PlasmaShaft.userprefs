@@ -1,9 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="PlasmaShaft/Server.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="XCraftGUI/Program.cs">
     <Files>
-      <File FileName="PlasmaShaft/Server.cs" Line="74" Column="23" />
-      <File FileName="PlasmaShaft/Config.cs" Line="56" Column="109" />
+      <File FileName="XCraftLib/World/Blocks/Snow.cs" Line="58" Column="18" />
+      <File FileName="XCraftLib/World/Blocks/AirBlock.cs" Line="62" Column="1" />
+      <File FileName="XCraftLib/Server.cs" Line="12" Column="26" />
+      <File FileName="XCraftLib/LogMessage.cs" Line="1" Column="1" />
+      <File FileName="XCraft/Program.cs" Line="5" Column="22" />
+      <File FileName="XCraftGUI/Program.cs" Line="23" Column="80" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

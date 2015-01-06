@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D33B891A-6536-4EA0-A5B1-0FD4553092B7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PlasmaShaftCore</RootNamespace>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\XCraft\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AssemblyName>PlasmaShaftCore</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AssemblyName>XCraftLib</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="fNbt">
+      <HintPath>fNbt.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entity\Entity.cs" />
+    <Compile Include="Entity\Player.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="GUI\Window.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Window.Designer.cs">
+      <DependentUpon>Window.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LogMessage.cs" />
+    <Compile Include="Networking\ClientListener.cs" />
+    <Compile Include="Networking\DisconnectReason.cs" />
+    <Compile Include="Networking\OpCode.cs" />
+    <Compile Include="Networking\Packet.cs" />
+    <Compile Include="Networking\Player.Networking.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server.cs" />
+    <Compile Include="Util\Vector3s.cs" />
+    <Compile Include="Util\WindowColor.cs" />
+    <Compile Include="World\Blockchange.cs" />
+    <Compile Include="World\BlockQueue.cs" />
+    <Compile Include="World\Blocks\ActiveLava.cs" />
+    <Compile Include="World\Blocks\ActiveWater.cs" />
+    <Compile Include="World\Blocks\AdmincreteBlock.cs" />
+    <Compile Include="World\Blocks\AirBlock.cs" />
+    <Compile Include="World\Blocks\AquaWool.cs" />
+    <Compile Include="World\Blocks\BlackWool.cs" />
+    <Compile Include="World\Blocks\Block.cs" />
+    <Compile Include="World\Blocks\BlueWool.cs" />
+    <Compile Include="World\Blocks\Bookshelf.cs" />
+    <Compile Include="World\Blocks\Bricks.cs" />
+    <Compile Include="World\Blocks\BrownWool.cs" />
+    <Compile Include="World\Blocks\CeramicTile.cs" />
+    <Compile Include="World\Blocks\CoalOre.cs" />
+    <Compile Include="World\Blocks\CobblestoneBlock.cs" />
+    <Compile Include="World\Blocks\CobblestoneStair.cs" />
+    <Compile Include="World\Blocks\Crate.cs" />
+    <Compile Include="World\Blocks\CyanWool.cs" />
+    <Compile Include="World\Blocks\DeepBlueWool.cs" />
+    <Compile Include="World\Blocks\DirtBlock.cs" />
+    <Compile Include="World\Blocks\DoubleStair.cs" />
+    <Compile Include="World\Blocks\Fire.cs" />
+    <Compile Include="World\Blocks\ForestGreenWool.cs" />
+    <Compile Include="World\Blocks\GlassBlock.cs" />
+    <Compile Include="World\Blocks\GoldBlock.cs" />
+    <Compile Include="World\Blocks\GoldOre.cs" />
+    <Compile Include="World\Blocks\GrassBlock.cs" />
+    <Compile Include="World\Blocks\GravelBlock.cs" />
+    <Compile Include="World\Blocks\GrayWool.cs" />
+    <Compile Include="World\Blocks\GreenWool.cs" />
+    <Compile Include="World\Blocks\IceBlock.cs" />
+    <Compile Include="World\Blocks\IndigoWool.cs" />
+    <Compile Include="World\Blocks\IronBlock.cs" />
+    <Compile Include="World\Blocks\IronOre.cs" />
+    <Compile Include="World\Blocks\Leaves.cs" />
+    <Compile Include="World\Blocks\LightPinkWool.cs" />
+    <Compile Include="World\Blocks\LimeWool.cs" />
+    <Compile Include="World\Blocks\MagentaWool.cs" />
+    <Compile Include="World\Blocks\MagmaBlock.cs" />
+    <Compile Include="World\Blocks\MossyCobblestone.cs" />
+    <Compile Include="World\Blocks\Mushroom.cs" />
+    <Compile Include="World\Blocks\ObsidianBlock.cs" />
+    <Compile Include="World\Blocks\OrangeWool.cs" />
+    <Compile Include="World\Blocks\PillarBlock.cs" />
+    <Compile Include="World\Blocks\PinkWool.cs" />
+    <Compile Include="World\Blocks\Plant.cs" />
+    <Compile Include="World\Blocks\RedFlower.cs" />
+    <Compile Include="World\Blocks\RedMushroom.cs" />
+    <Compile Include="World\Blocks\RedWool.cs" />
+    <Compile Include="World\Blocks\Rope.cs" />
+    <Compile Include="World\Blocks\SandBlock.cs" />
+    <Compile Include="World\Blocks\Sandstone.cs" />
+    <Compile Include="World\Blocks\Snow.cs" />
+    <Compile Include="World\Blocks\SpongeBlock.cs" />
+    <Compile Include="World\Blocks\Stair.cs" />
+    <Compile Include="World\Blocks\StationaryLava.cs" />
+    <Compile Include="World\Blocks\StationaryWater.cs" />
+    <Compile Include="World\Blocks\StoneBlock.cs" />
+    <Compile Include="World\Blocks\StoneBricks.cs" />
+    <Compile Include="World\Blocks\TealWool.cs" />
+    <Compile Include="World\Blocks\TNT.cs" />
+    <Compile Include="World\Blocks\TreeBlock.cs" />
+    <Compile Include="World\Blocks\TurquoiseWool.cs" />
+    <Compile Include="World\Blocks\VioletWool.cs" />
+    <Compile Include="World\Blocks\WhiteWool.cs" />
+    <Compile Include="World\Blocks\WoodBlock.cs" />
+    <Compile Include="World\Blocks\YellowFlower.cs" />
+    <Compile Include="World\Blocks\YellowWool.cs" />
+    <Compile Include="World\Level.cs" />
+    <Compile Include="World\LevelFormat.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GUI\Window.resx">
+      <DependentUpon>Window.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
