@@ -7,7 +7,6 @@ using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using PlasmaShaftCore.Networking;
-using PlasmaShaftCore.Util;
 
 namespace PlasmaShaftCore {
     public class Level : IDisposable  {

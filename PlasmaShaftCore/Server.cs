@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Net.Sockets;
 using System.Windows.Forms;
-using PlasmaShaftCore.GUI;
 using PlasmaShaftCore.Networking;
 using PlasmaShaftCore.World;
 
@@ -30,9 +29,6 @@ namespace PlasmaShaftCore
                 Init();
                 return;
             }
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Window());
         }
 
         public static void Init()

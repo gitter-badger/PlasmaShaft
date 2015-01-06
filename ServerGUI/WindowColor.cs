@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace PlasmaShaftCore.Util
+namespace PlasmaShaftCore
 {
     public static class WindowColor
     {

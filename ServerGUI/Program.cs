@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using PlasmaShaftCore;
+using System.Windows.Forms;
+using PlasmaShaftCore.GUI;
 
 namespace PlasmaShaft
 {
@@ -8,6 +10,9 @@ namespace PlasmaShaft
     {
         public static void Main(string[] args)
         {
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
+			Application.Run(new Window());
             if (args.Length > 0)
             {
                 bool debug = false;
