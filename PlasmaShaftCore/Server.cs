@@ -104,6 +104,9 @@ namespace PlasmaShaftCore
 
         #endregion
 
+		public static void Say(string message, byte id = 0) {
+				Player.players.ForEach (p => p.SendMessage (id, message));
+		}
 
         public static void Log(string message, LogMessage type = LogMessage.MESSAGE) {
             if (OnLog == null) {
@@ -139,6 +142,7 @@ namespace PlasmaShaftCore
         public static int Port = 25565;
 		public static string Salt { get; set; }
 		public static bool Public = true;
+		public static bool VerifyNames = true;
 
         public static Level MainLevel;
 
@@ -151,13 +155,14 @@ namespace PlasmaShaftCore
 			Stopwatch clock = new Stopwatch();
 			clock.Start();
 			double lastHeartbeat = -30;
-
-			if (clock.Elapsed.TotalSeconds - lastHeartbeat >= 30) {
-				double now = clock.Elapsed.TotalSeconds;
-				Heartbeat ();
-				GC.Collect ();
-				lastHeartbeat = clock.Elapsed.TotalSeconds;
-				LastHeartbeatTook = Math.Round (10 * (clock.Elapsed.TotalSeconds - now)) / 10.0;
+			while (true) {
+				if (clock.Elapsed.TotalSeconds - lastHeartbeat >= 30) {
+					double now = clock.Elapsed.TotalSeconds;
+					Heartbeat ();
+					GC.Collect ();
+					lastHeartbeat = clock.Elapsed.TotalSeconds;
+					LastHeartbeatTook = Math.Round (10 * (clock.Elapsed.TotalSeconds - now)) / 10.0;
+				}
 			}
 
 			Thread.Sleep(10);

@@ -76,8 +76,11 @@ namespace PlasmaShaftCore {
 
             for (int xx = 0; xx < width; xx++)
                 for (int zz = 0; zz < height; zz++)
-                    for (int yy = 0; yy < (depth / 2); yy++)
-                        SetTile((short)xx, (short)yy, (short)zz, 2);
+                        SetTile((short)xx, (short)(depth/2-1), (short)zz, (byte)2);
+			for (int xx = 0; xx < width; xx++)
+				for (int zz = 0; zz < height; zz++)
+					for (int yy = 0; yy < ((depth / 2) - 1); yy++)
+						SetTile((short)xx, (short)yy, (short)zz, (byte)3);
         }
 
         public void SetTile(short x, short y, short z, byte type) {

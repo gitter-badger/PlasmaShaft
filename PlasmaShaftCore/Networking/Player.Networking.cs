@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using PlasmaShaftCore.Networking;
@@ -117,13 +118,31 @@ namespace PlasmaShaftCore
 
             return tmp2;
         }
-
+		private bool VerifyName( string name, string hash, string salt ) 
+		{
+			if( name == null ) throw new ArgumentNullException( "name" );
+			if( hash == null ) throw new ArgumentNullException( "hash" );
+			if( salt == null ) throw new ArgumentNullException( "salt" );
+			while( hash.Length < 32 ) {
+				hash = "0" + hash;
+			}
+			MD5 hasher = MD5.Create();
+			StringBuilder sb = new StringBuilder( 32 );
+			foreach( byte b in hasher.ComputeHash( Encoding.ASCII.GetBytes( salt + name ) ) ) 
+			{
+				sb.AppendFormat( "{0:x2}", b );
+			}
+			return sb.ToString().TrimStart('0').Equals( hash, StringComparison.OrdinalIgnoreCase );
+		}
         private void ProcessLogin(byte[] msg) {
             byte protocolVersion = msg[0];
             string Username = Encoding.ASCII.GetString(msg, 1, 64).Trim();
             string VerificationKey = Encoding.ASCII.GetString(msg, 65, 64).Trim();
             byte clientType = msg[129];
-
+			if (Server.VerifyNames) {
+				if (!VerifyName (Username, VerificationKey, Server.Salt))
+					SendKick ("Verification failed, try re-logging?");
+			}
             this.Name = Username;
 
             this.ID = Server.MainLevel.FreeID;
@@ -134,6 +153,7 @@ namespace PlasmaShaftCore
             players.Add(this);
             SpawnPlayersInLevel(true, true);
             Server.Log("&2" + Username + " joined the server.");
+			Server.Say("&2" + Username + " joined the server.");
         }
 
         private void ProcessBlockchange(byte[] msg) {
