@@ -1,4 +1,4 @@
-XCraft
+PlasmaShaft
 ======
 
 A ClassiCube Server Software
