@@ -40,6 +40,7 @@ namespace PlasmaShaftCore
         public static void Init()
         {
             Log("Starting server...", LogMessage.INFO);
+            LoadConfig();
             InitialiseListener();
             if (!listener.Run())
             {
@@ -143,7 +144,43 @@ namespace PlasmaShaftCore
 		public static string Salt { get; set; }
 		public static bool Public = true;
 		public static bool VerifyNames = true;
-
+        public static void LoadConfig()
+        {
+            Config config = new Config("config");
+            try
+            {
+                config.LoadConfig("config");
+                Name = config.GetValue("server-name");
+                Port = Convert.ToInt32(config.GetValue("server-port"));
+                if (Port == 0)
+                    Port = 25565;
+                MOTD = config.GetValue("server-motd");
+                Public = Convert.ToBoolean(config.GetValue("server-public"));
+                MaxClients = Convert.ToInt32(config.GetValue("max-clients"));
+                if (MaxClients == 0)
+                    MaxClients = 20;
+                VerifyNames = Convert.ToBoolean(config.GetValue("verify-names"));
+            }
+            catch
+            {
+                if (Name == null)
+                    Name = "PlasmaShaft [Default]";
+                if (MOTD == null)
+                    MOTD = "+hax";
+                if (Public == false)
+                    Public = true;
+                if (VerifyNames == false)
+                    VerifyNames = true;
+                config.SetValue("server-name", Name.ToString());
+                config.SetValue("server-port", Port.ToString());
+                config.SetValue("server-motd", MOTD.ToString());
+                config.SetValue("server-public", Public.ToString());
+                config.SetValue("max-clients", MaxClients.ToString());
+                config.SetValue("verify-names", VerifyNames.ToString());
+                config.SaveConfig("config");
+                LoadConfig();
+            }
+        }
         public static Level MainLevel;
 
         #endregion
@@ -164,8 +201,6 @@ namespace PlasmaShaftCore
 					LastHeartbeatTook = Math.Round (10 * (clock.Elapsed.TotalSeconds - now)) / 10.0;
 				}
 			}
-
-			Thread.Sleep(10);
 		}
 
 		private static void Heartbeat()
@@ -212,7 +247,7 @@ namespace PlasmaShaftCore
 
 				if (!Initialized)
 				{
-					if (!data.Substring(0, 7).Contains("://") && !data.Substring(0, 7).Contains("www")) {
+					if (!data.Contains("://") && !data.Contains("www")) {
 						Log("Heartbeat successful, but no URL returned!", LogMessage.ERROR);
 					} else {
 						int i = data.IndexOf('=');

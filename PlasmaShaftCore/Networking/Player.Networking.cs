@@ -82,7 +82,7 @@ namespace PlasmaShaftCore
             catch (ObjectDisposedException) {
                 p.Disconnected = true;
             }
-            catch(Exception e) {
+            catch {
                 p.SendKick("An error occurred!");
             }
         }
@@ -135,6 +135,8 @@ namespace PlasmaShaftCore
 			return sb.ToString().TrimStart('0').Equals( hash, StringComparison.OrdinalIgnoreCase );
 		}
         private void ProcessLogin(byte[] msg) {
+            if (players.Count >= Server.MaxClients)
+                SendKick("The server is full, try again later");
             byte protocolVersion = msg[0];
             string Username = Encoding.ASCII.GetString(msg, 1, 64).Trim();
             string VerificationKey = Encoding.ASCII.GetString(msg, 65, 64).Trim();
