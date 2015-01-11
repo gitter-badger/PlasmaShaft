@@ -614,7 +614,6 @@ namespace PlasmaShaft
                         BinaryWriter writer = new BinaryWriter(stream);
                         for (int i = LastFlushedIndex; i < CacheSize; i++)
                         {
-                            Server.Log("Test");
                             cacheStore[i].Serialize(writer);
                             count++;
                         }

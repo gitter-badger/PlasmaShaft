@@ -5,7 +5,6 @@
         ClassicWorld,
         MCLawlLvl,
         MCForgeLvl,
-        Dat,
-        MCForgeCW
+        Dat
     }
 }

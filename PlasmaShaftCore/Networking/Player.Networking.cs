@@ -23,7 +23,7 @@ namespace PlasmaShaft
         public bool Disconnected { get; private set; }
         public override byte ID { get; set; }
 
-        private System.Timers.Timer PingTimer = new System.Timers.Timer(1000);
+        private System.Timers.Timer PingTimer = new System.Timers.Timer(2000);
 
         public Level level;
 
@@ -50,7 +50,7 @@ namespace PlasmaShaft
             this.client = client;
             Server.Log("&2" + IP + " connected to the server.");
 
-            NetworkStream.BeginRead(TempData, 0, TempData.Length, Read, this);
+            NetworkStream.BeginRead(TempData, 0, TempData.Length, new AsyncCallback(Read), this);
             PingTimer.Elapsed += delegate { SendPing(); };
             PingTimer.Start();
         }
@@ -73,7 +73,7 @@ namespace PlasmaShaft
                     Buffer.BlockCopy(p.TempData, 0, FullPacket, p.PartialData.Length, read);
 
                     p.PartialData = p.ProcessData(FullPacket);
-                    p.NetworkStream.BeginRead(p.TempData, 0, p.TempData.Length, Read, p);
+                    p.NetworkStream.BeginRead(p.TempData, 0, p.TempData.Length, new AsyncCallback(Read), p);
                 }
             }
             catch (IOException) {
