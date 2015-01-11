@@ -8,10 +8,10 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using PlasmaShaftCore.Networking;
-using PlasmaShaftCore.World;
+using PlasmaShaft.Networking;
+using PlasmaShaft.World;
 
-namespace PlasmaShaftCore
+namespace PlasmaShaft
 {
     public static class Server {
         public delegate void LogMsg(string message, LogMessage MSG);
@@ -42,6 +42,7 @@ namespace PlasmaShaftCore
             Log("Starting server...", LogMessage.INFO);
             LoadConfig();
             InitialiseListener();
+            BlockDB.Init();
             if (!listener.Run())
             {
                 if (!GUIMode)
@@ -143,12 +144,10 @@ namespace PlasmaShaftCore
         public static int Port = 25565;
 		public static string Salt { get; set; }
 		public static bool Public = true;
-		public static bool VerifyNames = true;
+		public static bool VerifyNames = false;
         public static void LoadConfig()
         {
             Config config = new Config("config");
-            try
-            {
                 config.LoadConfig("config");
                 Name = config.GetValue("server-name");
                 Port = Convert.ToInt32(config.GetValue("server-port"));
@@ -160,26 +159,24 @@ namespace PlasmaShaftCore
                 if (MaxClients == 0)
                     MaxClients = 20;
                 VerifyNames = Convert.ToBoolean(config.GetValue("verify-names"));
-            }
-            catch
-            {
-                if (Name == null)
-                    Name = "PlasmaShaft [Default]";
-                if (MOTD == null)
-                    MOTD = "+hax";
-                if (Public == false)
-                    Public = true;
-                if (VerifyNames == false)
-                    VerifyNames = true;
-                config.SetValue("server-name", Name.ToString());
-                config.SetValue("server-port", Port.ToString());
-                config.SetValue("server-motd", MOTD.ToString());
-                config.SetValue("server-public", Public.ToString());
-                config.SetValue("max-clients", MaxClients.ToString());
-                config.SetValue("verify-names", VerifyNames.ToString());
-                config.SaveConfig("config");
-                LoadConfig();
-            }
+                if (Name == null || MOTD == null || Public == null || VerifyNames == null)
+                {
+                    if (Name == null)
+                        Name = "PlasmaShaft [Default]";
+                    if (MOTD == null)
+                        MOTD = "+hax";
+                    if (Public == false)
+                        Public = true;
+                    if (VerifyNames == false)
+                        VerifyNames = true;
+                    config.SetValue("server-name", Name.ToString());
+                    config.SetValue("server-port", Port.ToString());
+                    config.SetValue("server-motd", MOTD.ToString());
+                    config.SetValue("server-public", Public.ToString());
+                    config.SetValue("max-clients", MaxClients.ToString());
+                    config.SetValue("verify-names", VerifyNames.ToString());
+                    config.SaveConfig("config");
+                }
         }
         public static Level MainLevel;
 
@@ -196,6 +193,8 @@ namespace PlasmaShaftCore
 				if (clock.Elapsed.TotalSeconds - lastHeartbeat >= 30) {
 					double now = clock.Elapsed.TotalSeconds;
 					Heartbeat ();
+                    foreach (Level lvls in levels)
+                        lvls.Save();
 					GC.Collect ();
 					lastHeartbeat = clock.Elapsed.TotalSeconds;
 					LastHeartbeatTook = Math.Round (10 * (clock.Elapsed.TotalSeconds - now)) / 10.0;

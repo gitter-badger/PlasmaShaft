@@ -1,4 +1,4 @@
-﻿namespace PlasmaShaftCore
+﻿namespace PlasmaShaft
 {
     public enum OpCode
     {

@@ -1,4 +1,4 @@
-﻿namespace PlasmaShaftCore.GUI
+﻿namespace PlasmaShaft.GUI
 {
     partial class Window
     {

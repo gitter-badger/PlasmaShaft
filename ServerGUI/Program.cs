@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using PlasmaShaftCore;
+using PlasmaShaft;
 using System.Windows.Forms;
-using PlasmaShaftCore.GUI;
+using PlasmaShaft.GUI;
 
 namespace PlasmaShaft
 {

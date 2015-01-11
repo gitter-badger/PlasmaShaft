@@ -1,6 +1,6 @@
-﻿using PlasmaShaftCore;
+﻿using PlasmaShaft;
 
-namespace PlasmaShaftCore.World
+namespace PlasmaShaft.World
 {
     public static class BlockQueue
     {

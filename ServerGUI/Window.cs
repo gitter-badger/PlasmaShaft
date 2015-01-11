@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using PlasmaShaftCore;
+using PlasmaShaft;
 
-namespace PlasmaShaftCore.GUI
+namespace PlasmaShaft.GUI
 {
     public partial class Window : Form
     {

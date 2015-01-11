@@ -1,4 +1,4 @@
-﻿namespace PlasmaShaftCore
+﻿namespace PlasmaShaft.World.Blocks
 {
     public class Leaves : Block
     {

@@ -1,4 +1,4 @@
-namespace PlasmaShaftCore
+namespace PlasmaShaft.World.Blocks
 {
 	public class Snow : Block
 	{
@@ -22,10 +22,10 @@ namespace PlasmaShaftCore
 			get { return false; }
 		}
 
-		public override string Name
-		{
-			get { return "snow"; }
-		}
+        public override string Name
+        {
+            get { return "snow"; }
+        }
 
 		public override bool Opaque
 		{

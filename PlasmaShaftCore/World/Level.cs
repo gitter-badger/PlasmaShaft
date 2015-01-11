@@ -6,15 +6,16 @@ using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
-using PlasmaShaftCore.Networking;
+using PlasmaShaft.Networking;
 
-namespace PlasmaShaftCore {
+namespace PlasmaShaft {
     public class Level : IDisposable  {
         public List<Player> players {
             get {
                 return Player.players.FindAll(p => p.level.Name == this.Name);
             }
         }
+        public BlockDB BlockDB { get; private set; }
 
         public Vector3s PlayerSpawn {
             get {
@@ -69,7 +70,7 @@ namespace PlasmaShaftCore {
             TimeCreated = GetCurrentUnixTime();
             LastAccessed = GetCurrentUnixTime();
             LastModified = GetCurrentUnixTime();
-
+            BlockDB = new BlockDB(this);
             UUID = new byte[16];
             var random = RandomNumberGenerator.Create();
             random.GetBytes(UUID);
@@ -81,6 +82,11 @@ namespace PlasmaShaftCore {
 				for (int zz = 0; zz < height; zz++)
 					for (int yy = 0; yy < ((depth / 2) - 1); yy++)
 						SetTile((short)xx, (short)yy, (short)zz, (byte)3);
+        }
+
+        public bool InBounds(Vector3s vec)
+        {
+            return vec.x < width && vec.y < depth && vec.z < height && vec.x >= 0 && vec.y >= 0 && vec.z >= 0;
         }
 
         public void SetTile(short x, short y, short z, byte type) {
@@ -95,12 +101,25 @@ namespace PlasmaShaftCore {
             return BlockData[x + (z * width) + (y * width * height)];
         }
 
+        public int Index(int x, int y, int z)
+        {
+            return x + (z * width) + (y * width * height);
+        }
+
+
         public void PlayerBlockchange(Player p, short x, short y, short z, byte type, short mode = 0) {
             byte oldType = GetTile(x, y, z);
             byte tmpType = type;
             if (mode == 0)
                 type = 0;
+            BlockDBEntry newEntry = new BlockDBEntry((int)DateTime.UtcNow.ToUnixTime(),
+                              p.ID,
+                              new Vector3s(p.Pos[0], p.Pos[1], p.Pos[2]),
+                              GetTile(x, y, z),
+                              type,
+                              BlockChangeContext.Manual);
             SetTile(x, y, z, type);
+            p.level.BlockDB.AddEntry(newEntry);
             Player.players.ForEach(pl => { if (pl.level == this) pl.SendBlockchange(x, y, z, type); });
         }
 
@@ -147,11 +166,21 @@ namespace PlasmaShaftCore {
             if (File.Exists(string.Format("levels/{0}.cw", Name))) File.Delete(string.Format("levels/{0}.cw", Name));
             var MyFile = new NbtFile(compound);
             MyFile.SaveToFile("levels/" + Name + ".cw", NbtCompression.GZip);
-            
+            BlockDB.Flush(false, true);
         }
 
         public void Export(LevelFormat format) {
 
+        }
+
+        public static Level LoadMap(string FileName, LevelFormat format = LevelFormat.ClassicWorld)
+        {
+            return Load(FileName, format);
+        }
+
+        public Level LoadMap(LevelFormat format = LevelFormat.ClassicWorld)
+        {
+            return Load(this.Name, format);
         }
 
         public static Level Load(string FileName, LevelFormat format) {
@@ -379,7 +408,7 @@ namespace PlasmaShaftCore {
                     }
                     break;
             }
-
+            level.BlockDB = new BlockDB(level);
             GC.Collect();
             GC.WaitForPendingFinalizers();
             return level;

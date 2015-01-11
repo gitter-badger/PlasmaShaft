@@ -6,10 +6,10 @@ using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using PlasmaShaftCore.Networking;
-using PlasmaShaftCore.World;
+using PlasmaShaft.Networking;
+using PlasmaShaft.World;
 
-namespace PlasmaShaftCore
+namespace PlasmaShaft
 {
     public sealed partial class Player
     {

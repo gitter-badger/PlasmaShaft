@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.IO.Compression;
 
-namespace PlasmaShaftCore
+namespace PlasmaShaft
 {
     public static class Extensions
     {

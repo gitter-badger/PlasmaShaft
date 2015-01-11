@@ -1,5 +1,6 @@
-﻿
-namespace PlasmaShaftCore
+﻿using PlasmaShaft;
+
+namespace PlasmaShaft.World.Blocks
 {
     public abstract class Block
     {

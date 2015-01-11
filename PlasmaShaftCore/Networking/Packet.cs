@@ -2,7 +2,7 @@
 using System.Net;
 using System.Text;
 
-namespace PlasmaShaftCore.Networking
+namespace PlasmaShaft.Networking
 {
     public class Packet
     {

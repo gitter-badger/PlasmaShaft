@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace PlasmaShaftCore
+namespace PlasmaShaft
 {
     public sealed partial class Player : Entity
     {

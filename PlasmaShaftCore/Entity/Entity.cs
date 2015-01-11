@@ -1,7 +1,7 @@
 ﻿using System;
-using PlasmaShaftCore.World;
+using PlasmaShaft.World;
 
-namespace PlasmaShaftCore
+namespace PlasmaShaft
 {
     public abstract class Entity
     {
