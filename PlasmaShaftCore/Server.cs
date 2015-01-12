@@ -43,6 +43,7 @@ namespace PlasmaShaft
             LoadConfig();
             InitialiseListener();
             BlockDB.Init();
+            LoadAllDlls.Init();
             if (!listener.Run())
             {
                 if (!GUIMode)

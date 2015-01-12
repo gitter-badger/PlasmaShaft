@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace PlasmaShaft
 {
@@ -59,6 +61,40 @@ namespace PlasmaShaft
 
         public static void Spawn(Entity e) { 
             
+        }
+        private void HandleCommand(string[] args)
+        {
+            string[] sendArgs = new string[0];
+            if (args.Length > 1)
+            {
+                sendArgs = new string[args.Length - 1];
+                for (int i = 1; i < args.Length; i++)
+                {
+                    sendArgs[i - 1] = args[i];
+                }
+            }
+
+            string name = args[0].ToLower().Trim();
+            if (Command.Commands.ContainsKey(name))
+            {
+                ThreadPool.QueueUserWorkItem(delegate
+                {
+                    ICommand cmd = Command.Commands[name];
+                    try
+                    {
+                        cmd.Use(this, sendArgs);
+                    }
+                    catch (Exception ex)
+                    {
+                        Server.Log("[Error] An error occured when " + Name + " tried to use " + name + "! " + ex.ToString(), LogMessage.ERROR);
+                    }
+                });
+            }
+            else
+            {
+                SendMessage(0, "Unknown command \"" + name + "\"!");
+            }
+
         }
     }
 }

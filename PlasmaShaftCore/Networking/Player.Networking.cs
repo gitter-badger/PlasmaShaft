@@ -195,6 +195,14 @@ namespace PlasmaShaft
         private void ProcessMessage(byte[] msg) {
             byte Unused = msg[0];
             string message = Encoding.ASCII.GetString(msg, 1, 64).Trim();
+            if (message[0] == '/')
+            {
+                message = message.Remove(0, 1);
+
+                string[] args = message.Split(' ');
+                HandleCommand(args);
+                return;
+            }
             Say(message);
         }
 
