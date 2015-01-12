@@ -135,7 +135,7 @@ namespace PlasmaShaft
 			return sb.ToString().TrimStart('0').Equals( hash, StringComparison.OrdinalIgnoreCase );
 		}
         private void ProcessLogin(byte[] msg) {
-            if (players.Count >= Server.MaxClients)
+            if (Server.Players.Count >= Server.MaxClients)
                 SendKick("The server is full, try again later");
             byte protocolVersion = msg[0];
             string Username = Encoding.ASCII.GetString(msg, 1, 64).Trim();
@@ -152,7 +152,7 @@ namespace PlasmaShaft
 
             SendID(Server.Name, Server.MOTD, 0x00);
             SendToCurrentLevel();
-            players.Add(this);
+            Server.Players.Add(this);
             SpawnPlayersInLevel(true, true);
             Server.Log("&2" + Username + " joined the server.");
 			Server.Say("&2" + Username + " joined the server.");
@@ -368,7 +368,7 @@ namespace PlasmaShaft
                 Disconnected = true;
                 Server.Log("&4" + Name + " " + dcreason.ToString() + " (" + reason + ")");
                 DespawnPlayersInLevel(true, true);
-                players.Remove(this);
+                Server.Players.Remove(this);
             }
         }
 
@@ -525,7 +525,7 @@ namespace PlasmaShaft
 
             if (changed != 0)
             {
-                Player.players.ForEach(pl =>
+                Server.Players.ForEach(pl =>
                 {
                     if (pl != this && pl.level == level)
                         pl.Send(packet);

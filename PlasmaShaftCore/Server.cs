@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using System.Linq;
 using PlasmaShaft.Networking;
 using PlasmaShaft.World;
 
@@ -24,6 +25,7 @@ namespace PlasmaShaft
         public static event LogMsg OnLog = null;
 		public static double LastHeartbeatTook { get; set; }
 		private static bool Initialized = false;
+        public static List<Player> Players = new List<Player>();
         
         #region SETUP
 
@@ -108,7 +110,7 @@ namespace PlasmaShaft
         #endregion
 
 		public static void Say(string message, byte id = 0) {
-				Player.players.ForEach (p => p.SendMessage (id, message));
+				Server.Players.ForEach (p => p.SendMessage (id, message));
 		}
 
         public static void Log(string message, LogMessage type = LogMessage.MESSAGE) {
@@ -136,6 +138,16 @@ namespace PlasmaShaft
 			}
 			return sb.ToString();
 		}
+
+        /// <summary>
+        /// Returns an online player by matching the player's name to the passed argument
+        /// </summary>
+        public static Player GetPlayer(string name_)
+        {
+            return (from p in Players
+                    where p.Name.ToLower() == name_.ToLower()
+                    select p).First();
+        }
 
         #region == PROPERTIES ==
 
@@ -213,7 +225,7 @@ namespace PlasmaShaft
 				builder.Append(Port.ToString());
 
 				builder.Append("&users=");
-				builder.Append(Player.players.Count);
+				builder.Append(Server.Players.Count);
 
 				builder.Append("&max=");
 				builder.Append(MaxClients);

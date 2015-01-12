@@ -67,7 +67,7 @@
     <Compile Include="Networking\DisconnectReason.cs" />
     <Compile Include="Networking\OpCode.cs" />
     <Compile Include="Networking\Packet.cs" />
-    <Compile Include="Networking\Player.Networking.cs" />
+    <Compile Include="Entity\Player.Networking.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Util\BoundingBox.cs" />

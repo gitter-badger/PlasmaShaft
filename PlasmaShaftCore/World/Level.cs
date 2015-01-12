@@ -12,7 +12,7 @@ namespace PlasmaShaft {
     public class Level : IDisposable  {
         public List<Player> players {
             get {
-                return Player.players.FindAll(p => p.level.Name == this.Name);
+                return Server.Players.FindAll(p => p.level.Name == this.Name);
             }
         }
         public BlockDB BlockDB { get; private set; }
@@ -120,7 +120,7 @@ namespace PlasmaShaft {
                               BlockChangeContext.Manual);
             SetTile(x, y, z, type);
             p.level.BlockDB.AddEntry(newEntry);
-            Player.players.ForEach(pl => { if (pl.level == this) pl.SendBlockchange(x, y, z, type); });
+            Server.Players.ForEach(pl => { if (pl.level == this) pl.SendBlockchange(x, y, z, type); });
         }
 
         public void Save() {
