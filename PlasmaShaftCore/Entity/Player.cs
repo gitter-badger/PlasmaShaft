@@ -123,7 +123,7 @@ namespace PlasmaShaft
         /// <summary>
         /// Returns whether or not the player is banned
         /// </summary>
-        public bool isBanned;
+        public bool IsBanned;
 
         /// <summary> Date of most recent ban, UTC. May be DateTime.MinValue if player was never banned. </summary>
         public DateTime BanDate;

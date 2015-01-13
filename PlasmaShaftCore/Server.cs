@@ -25,7 +25,16 @@ namespace PlasmaShaft
         public static event LogMsg OnLog = null;
 		public static double LastHeartbeatTook { get; set; }
 		private static bool Initialized = false;
+
+        /// <summary>
+        /// Keeps a list of players currently online on the server
+        /// </summary>
         public static List<Player> Players = new List<Player>();
+
+        /// <summary>
+        /// Keeps a list of players that joined the server since the server started
+        /// </summary>
+        public static List<Player> PlayersSinceStartUp = new List<Player>();
         
         #region SETUP
 
@@ -109,7 +118,11 @@ namespace PlasmaShaft
 
         #endregion
 
-		public static void Say(string message, byte id = 0) {
+        #region SHUTDOWN
+
+        #endregion
+
+        public static void Say(string message, byte id = 0) {
 				Server.Players.ForEach (p => p.SendMessage (id, message));
 		}
 

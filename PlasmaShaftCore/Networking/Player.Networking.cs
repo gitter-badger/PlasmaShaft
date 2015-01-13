@@ -152,6 +152,10 @@ namespace PlasmaShaft
 
             SendID(Server.Name, Server.MOTD, 0x00);
             SendToCurrentLevel();
+            if (!Server.PlayersSinceStartUp.Contains(this))
+            {
+                Server.PlayersSinceStartUp.Add(this);
+            }
             Server.Players.Add(this);
             SpawnPlayersInLevel(true, true);
             Server.Log("&2" + Username + " joined the server.");
