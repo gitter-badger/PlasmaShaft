@@ -63,8 +63,11 @@ namespace PlasmaShaft
                     Server.Log("Server shut down, press any key to continue...", LogMessage.ERROR);
                     Console.ReadKey();
                 }
-                else Server.Log("Server shut down.");
-                return;
+                else
+                {
+                    Server.Log("Server shut down.");
+                }
+                Shutdown();
             }
             InitialisePositionUpdater();
             CreateDirectories();
@@ -119,6 +122,16 @@ namespace PlasmaShaft
         #endregion
 
         #region SHUTDOWN
+
+        /// <summary>
+        /// Safely shuts down the server and saves PlayerDB
+        /// </summary>
+        public static void Shutdown()
+        {
+            Server.Log("Server shutting down...");
+            PlayerDB.Save();
+            Environment.Exit(0);
+        }
 
         #endregion
 

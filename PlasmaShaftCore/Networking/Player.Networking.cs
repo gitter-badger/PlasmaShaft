@@ -162,6 +162,9 @@ namespace PlasmaShaft
 			Server.Say("&2" + Username + " joined the server.");
         }
 
+        /// <summary>
+        /// Handles when a player changes a block to update the change to all players
+        /// </summary>
         private void ProcessBlockchange(byte[] msg) {
             short x = IPAddress.NetworkToHostOrder(BitConverter.ToInt16(msg, 0));
             short y = IPAddress.NetworkToHostOrder(BitConverter.ToInt16(msg, 2));
@@ -179,6 +182,10 @@ namespace PlasmaShaft
                 return;
             }
 
+            if (mode == 0)
+                BlocksDeleted++;
+            else
+                BlocksBuilt++;
             level.PlayerBlockchange(this, x, y, z, type, mode);
         }
 
