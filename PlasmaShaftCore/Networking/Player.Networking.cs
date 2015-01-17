@@ -157,6 +157,15 @@ namespace PlasmaShaft
                 Server.PlayersSinceStartUp.Add(this);
             }
             Server.Players.Add(this);
+            try
+            {
+                PlayerDB.Load(this);
+            }
+            catch(Exception ex)
+            {
+                SendKick("Error loading PlayerDB");
+                Server.Log(ex.ToString());
+            }
             SpawnPlayersInLevel(true, true);
             Server.Log("&2" + Username + " joined the server.");
 			Server.Say("&2" + Username + " joined the server.");
@@ -338,12 +347,32 @@ namespace PlasmaShaft
             Send(Packet);
         }
 
+        /// <summary>
+        /// Sends a message with the desired message type id
+        /// </summary>
         public void SendMessage(byte id, string message) {
+            MessagesWritten++;
             foreach (string msg in Wordwrap(message))
             {
                 Packet = new Packet(66);
                 Packet.Write(OpCode.Message);
                 Packet.Write(id);
+                Packet.Write(msg);
+                Send(Packet);
+            }
+        }
+
+        /// <summary>
+        /// Sends a message with an id of 0, normal message type
+        /// </summary>
+        public void SendMessage(string message)
+        {
+            MessagesWritten++;
+            foreach (string msg in Wordwrap(message))
+            {
+                Packet = new Packet(66);
+                Packet.Write(OpCode.Message);
+                Packet.Write((byte)0);
                 Packet.Write(msg);
                 Send(Packet);
             }

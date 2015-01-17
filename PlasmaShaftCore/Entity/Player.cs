@@ -102,23 +102,23 @@ namespace PlasmaShaft
         //Inspired (but mostly stolen) from fCraft
 
         /// <summary> If set, will be used instead of Name in chat. </summary>
-        public string DisplayedName;
+        public string DisplayedName = "";
 
         /// <summary> First time the player ever logged in, UTC.</summary>
-        public DateTime FirstLoginDate;
+        public DateTime FirstLoginDate = DateTime.MinValue;
 
         /// <summary> Most recent time the player logged in, UTC. </summary>
-        public DateTime LastLoginDate;
+        public DateTime LastLoginDate = DateTime.MinValue;
 
         /// <summary> Last time the player has been seen online (last logout), UTC. </summary>
-        public DateTime LastSeen;
+        public DateTime LastSeen = DateTime.MinValue;
 
         //add current rank 
 
         //add previous rank
 
         /// <summary> Reason given for the most recent promotion/demotion. May be empty. </summary>
-        public string RankChangeReason;
+        public string RankChangeReason = "";
 
         /// <summary>
         /// Returns whether or not the player is banned
@@ -126,28 +126,28 @@ namespace PlasmaShaft
         public bool IsBanned;
 
         /// <summary> Date of most recent ban, UTC. May be DateTime.MinValue if player was never banned. </summary>
-        public DateTime BanDate;
+        public DateTime BanDate = DateTime.MinValue;
 
         /// <summary> Name of the player responsible for ban, may be empty. </summary>
-        public string BannedBy;
+        public string BannedBy = "";
 
         /// <summary> Reason for ban, may be empty. </summary>
-        public string BanReason;
+        public string BanReason = "";
 
         /// <summary> Date of most recent unban, UTC. May be DateTime.MinValue if player was never unbanned. </summary>
-        public DateTime UnbanDate;
+        public DateTime UnbanDate = DateTime.MinValue;
 
         /// <summary> Name of the player responsible for most recent unban, may be empty. </summary>
-        public string UnbannedBy;
+        public string UnbannedBy = "";
 
         /// <summary> Reason given for the most recent unban, may be empty. </summary>
-        public string UnbanReason;
+        public string UnbanReason = "";
 
         /// <summary> Number of bans issued by this player. </summary>
         public int TimesBannedOthers;
 
         /// <summary> Total amount of time the player spent on this server. </summary>
-        public TimeSpan TotalTime;
+        public TimeSpan TotalTime = TimeSpan.Zero;
 
         /// <summary> Total number of blocks manually built or painted by the player. </summary>
         public int BlocksBuilt;
@@ -172,32 +172,32 @@ namespace PlasmaShaft
 
         /// <summary> Date of the most recent kick.
         /// May be DateTime.MinValue if the player has never been kicked. </summary>
-        public DateTime LastKickDate;
+        public DateTime LastKickDate = DateTime.MinValue;
 
         /// <summary> Name of the entity that most recently kicked this player. May be empty. </summary>
-        public string LastKickBy;
+        public string LastKickBy = "";
 
         /// <summary> Reason given for the most recent kick. May be empty. </summary>
-        public string LastKickReason;
+        public string LastKickReason = "";
 
         /// <summary> Whether this player is currently frozen. </summary>
         public bool IsFrozen;
 
         /// <summary> Date of the most recent freezing.
         /// May be DateTime.MinValue of the player has never been frozen. </summary>
-        public DateTime FrozenOn;
+        public DateTime FrozenOn = DateTime.MinValue;
 
         /// <summary> Name of the entity that most recently froze this player. May be empty. </summary>
-        public string FrozenBy;
+        public string FrozenBy = "";
 
          /// <summary> Whether this player is currently muted. </summary>
         public bool IsMuted;
 
         /// <summary> Date until which the player is muted. If the date is in the past, player is NOT muted. </summary>
-        public DateTime MutedUntil;
+        public DateTime MutedUntil = DateTime.MinValue;
 
         /// <summary> Name of the entity that most recently muted this player. May be empty. </summary>
-        public string MutedBy;
+        public string MutedBy = "";
 
 
         #endregion

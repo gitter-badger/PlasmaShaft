@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="CmdHelp.cs" />
     <Compile Include="CmdReload.cs" />
+    <Compile Include="CmdStats.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CmdShutdown.cs" />
   </ItemGroup>

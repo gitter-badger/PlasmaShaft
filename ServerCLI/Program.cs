@@ -20,7 +20,7 @@ namespace PlasmaShaft
                 catch {
                     Console.WriteLine("Could not parse the arguments.");
                     Console.WriteLine("Make sure it is as followed: \"xcraft.exe [bool:debug] [bool:gui]\"");
-                    Environment.Exit(0);
+                    Server.Shutdown();
                 }
                 Server.Start(debug, gui);
             }
