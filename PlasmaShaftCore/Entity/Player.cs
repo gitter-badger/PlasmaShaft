@@ -62,6 +62,7 @@ namespace PlasmaShaft
         }
 
         public void Say(string message, byte id = 0) {
+            MessagesWritten++;
             Server.Players.ForEach(p => p.SendMessage(id, Name + ": " + message));
         }
 

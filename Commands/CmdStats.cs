@@ -20,10 +20,10 @@ namespace PlasmaShaft.Commands
                 return;
             }
 
-            p.SendMessage("Blocks built: " + p.BlocksBuilt);
-            p.SendMessage("Blocks deleted: " + p.BlocksDeleted);
-            p.SendMessage("Blocks drawn: " + p.BlocksDrawn);
-            p.SendMessage("Messages written: " + p.MessagesWritten);
+            p.SendMessage(0, "Blocks built: " + p.BlocksBuilt);
+            p.SendMessage(0, "Blocks deleted: " + p.BlocksDeleted);
+            p.SendMessage(0, "Blocks drawn: " + p.BlocksDrawn);
+            p.SendMessage(0, "Messages written: " + p.MessagesWritten);
         }
         public void Help(Player p)
         {

@@ -360,7 +360,6 @@ namespace PlasmaShaft
         /// Sends a message with the desired message type id
         /// </summary>
         public void SendMessage(byte id, string message) {
-            MessagesWritten++;
             foreach (string msg in Wordwrap(message))
             {
                 Packet = new Packet(66);
@@ -376,7 +375,6 @@ namespace PlasmaShaft
         /// </summary>
         public void SendMessage(string message)
         {
-            MessagesWritten++;
             foreach (string msg in Wordwrap(message))
             {
                 Packet = new Packet(66);
