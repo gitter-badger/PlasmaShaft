@@ -73,7 +73,8 @@ namespace PlasmaShaft
             CreateDirectories();
             LoadMainLevel();
 			Salt = GetRandomString(32);
-			Thread T2 = new Thread(TimerThread, 1048576);
+            
+			Thread T2 = new Thread(TimerThread);
 			T2.Name = "Heartbeat thread";
 			T2.Start();
             if (!GUIMode) Console.ReadKey();
@@ -227,9 +228,9 @@ namespace PlasmaShaft
 		{
 			Stopwatch clock = new Stopwatch();
 			clock.Start();
-			double lastHeartbeat = -30;
-			while (true) {
-				if (clock.Elapsed.TotalSeconds - lastHeartbeat >= 30) {
+			double lastHeartbeat = -45;
+            while (clock.Elapsed.TotalSeconds - lastHeartbeat >= 45)
+            {
 					double now = clock.Elapsed.TotalSeconds;
 					Heartbeat ();
                     foreach (Level lvls in levels)
@@ -237,7 +238,6 @@ namespace PlasmaShaft
 					GC.Collect ();
 					lastHeartbeat = clock.Elapsed.TotalSeconds;
 					LastHeartbeatTook = Math.Round (10 * (clock.Elapsed.TotalSeconds - now)) / 10.0;
-				}
 			}
 		}
 
