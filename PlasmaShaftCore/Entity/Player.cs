@@ -15,6 +15,35 @@ namespace PlasmaShaft
         public override short[] Pos  { get; set; }
         public override byte[] Rot { get; set; }
         public override int EntityID { get { return 0; } }
+
+        #region Events
+        /// <summary>
+        /// Gets called when this player sends a message.
+        /// </summary>
+        public ChatEvent OnPlayerChat = new ChatEvent();
+        /// <summary>
+        /// Gets called when any player sends a message.
+        /// </summary>
+        public static ChatEvent OnAllPlayersChat = new ChatEvent();
+        /// <summary>
+        /// Gets called when this player connects.
+        /// </summary>
+        public ConnectionEvent OnPlayerConnect = new ConnectionEvent();
+        /// <summary>
+        /// Gets called when any player connects.
+        /// </summary>
+        public static ConnectionEvent OnAllPlayersConnect = new ConnectionEvent();
+        /// <summary>
+        /// Gets called when this player disconnect.
+        /// </summary>
+        public ConnectionEvent OnPlayerDisconnect = new ConnectionEvent();
+        /// <summary>
+        /// Gets called when any player disconnect.
+        /// </summary>
+        public static ConnectionEvent OnAllPlayersDisconnect = new ConnectionEvent();
+
+        #endregion
+
         public override bool NPC
         {
             get { return false; }

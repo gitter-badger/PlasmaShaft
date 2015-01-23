@@ -54,13 +54,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\CmdReload.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\LoadAllDlls.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Entity\Entity.cs" />
     <Compile Include="Entity\Player.cs" />
+    <Compile Include="Events\ChatEvent.cs" />
+    <Compile Include="Events\ConnectionEvent.cs" />
+    <Compile Include="Events\Event.cs" />
+    <Compile Include="Events\ICancelable.cs" />
+    <Compile Include="Events\IStoppable.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="LogMessage.cs" />
     <Compile Include="Networking\ClientListener.cs" />

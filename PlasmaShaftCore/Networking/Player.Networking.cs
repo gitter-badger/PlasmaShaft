@@ -149,7 +149,12 @@ namespace PlasmaShaft
 
             this.ID = Server.MainLevel.FreeID;
             this.level = Server.MainLevel;
-
+            ConnectionEventArgs eargs = new ConnectionEventArgs(true);
+            bool cancel = OnPlayerConnect.Call(this, eargs, OnAllPlayersConnect).Canceled;
+            if (cancel)
+            {
+                SendKick("Disconnected by canceled ConnectionEventArgs!");
+            }
             SendID(Server.Name, Server.MOTD, 0x00);
             SendToCurrentLevel();
             if (!Server.PlayersSinceStartUp.Contains(this))
@@ -223,6 +228,10 @@ namespace PlasmaShaft
                 HandleCommand(args);
                 return;
             }
+            ChatEventArgs eargs = new ChatEventArgs(message, Name);
+            bool canceled = OnPlayerChat.Call(this, eargs, OnAllPlayersChat).Canceled;
+            if (canceled || eargs.Message == null || eargs.Message.Length == 0)
+                return;
             Say(message);
         }
 
@@ -406,7 +415,11 @@ namespace PlasmaShaft
             if (!Disconnected) {
                 client.Close();
                 Disconnected = true;
+                ConnectionEventArgs eargs = new ConnectionEventArgs(false);
+                OnPlayerDisconnect.Call(this, eargs);
+                OnAllPlayersDisconnect.Call(this, eargs);
                 Server.Log("&4" + Name + " " + dcreason.ToString() + " (" + reason + ")");
+                Server.Say("&4" + Name + " " + dcreason.ToString() + " (" + reason + ")");
                 DespawnPlayersInLevel(true, true);
                 Server.Players.Remove(this);
             }
