@@ -130,7 +130,11 @@ namespace PlasmaShaft
         public static void Shutdown()
         {
             Server.Log("Server shutting down...");
+
+            //update total time here
+
             PlayerDB.Save();
+            Players.ForEach(p => p.SendKick("Server shutting down..."));
             Environment.Exit(0);
         }
 

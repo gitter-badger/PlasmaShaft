@@ -26,6 +26,7 @@ namespace PlasmaShaft
                 XDocument doc = XDocument.Load("PlayerDB.xml");
                 if (doc.Root.Element(player.Name) != null)
                 {
+                    TimeSpan time;
                     XAttribute[] attr = doc.Root.Element(player.Name).Attributes().ToArray();
                     player.IsBanned = (bool)attr[0];
                     player.BanDate = (DateTime)attr[1];
@@ -36,7 +37,7 @@ namespace PlasmaShaft
                     player.UnbanReason = attr[6].ToString();
                     player.FirstLoginDate = (DateTime)attr[7];
                     player.LastLoginDate = DateTime.Today;
-                    player.TotalTime = TimeSpan.Parse(attr[9].ToString());
+                    player.TotalTime =  attr[9].ToString().TryParseMiniTimespan(out time) ? time : TimeSpan.Zero;
                     player.BlocksBuilt = (int)attr[10];
                     player.BlocksDeleted = (int)attr[11];
                     player.TimesVisited = (int)attr[12] + 1;
@@ -119,7 +120,7 @@ namespace PlasmaShaft
             elem.Add(new XAttribute("UnbanReason", p.UnbanReason));
             elem.Add(new XAttribute("FirstLoginDate", p.FirstLoginDate.ToString()));
             elem.Add(new XAttribute("LastLoginDate", p.LastLoginDate.ToString()));
-            elem.Add(new XAttribute("TotalTime", p.TotalTime.ToTickString()));
+            elem.Add(new XAttribute("TotalTime", p.TotalTime.ToMiniString()));
             elem.Add(new XAttribute("BlocksBuilt", p.BlocksBuilt.ToString()));
             elem.Add(new XAttribute("BlocksDeleted", p.BlocksDeleted.ToString()));
             elem.Add(new XAttribute("TimesVisited", p.TimesVisited.ToString()));

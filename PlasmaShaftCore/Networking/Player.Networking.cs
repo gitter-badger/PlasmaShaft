@@ -55,6 +55,11 @@ namespace PlasmaShaft
             PingTimer.Start();
         }
 
+        private static DateTime LastCheckedTotalTime = DateTime.MinValue;
+
+        /// <summary>
+        /// Main loop for the player
+        /// </summary>
         private static void Read(IAsyncResult result) {
             Player p = (Player)result.AsyncState;
             try {
@@ -66,6 +71,17 @@ namespace PlasmaShaft
                     if (read == 0) {
                         p.Disconnect();
                         return;
+                    }
+
+                    if (LastCheckedTotalTime == DateTime.MinValue)
+                        LastCheckedTotalTime = DateTime.UtcNow;
+
+                    //update automagically every 5 seconds
+                    if(DateTime.UtcNow.Subtract(LastCheckedTotalTime).TotalMinutes >= 5)
+                    {
+                        p.TotalTime.Add(DateTime.UtcNow.Subtract(LastCheckedTotalTime));
+                        LastCheckedTotalTime = DateTime.UtcNow;
+
                     }
 
                     byte[] FullPacket = new byte[p.PartialData.Length + read];
@@ -385,7 +401,13 @@ namespace PlasmaShaft
             }
         }
 
-        public void SendKick(string Message) {
+        /// <summary>
+        /// Sends the kick packet to target player
+        /// </summary>
+        /// <param name="Message">Kick message sent to player</param>
+        /// <param name="AddKickCount">Determines if kick will add to the player's TimesKicked count</param>
+        public void SendKick(string Message)
+        {
             Packet = new Packet(65);
             Packet.Write(OpCode.Disconnect);
             Packet.Write(Message);
@@ -410,7 +432,9 @@ namespace PlasmaShaft
         }
 
         public void Quit(string reason, DisconnectReason dcreason = DisconnectReason.Quit) {
-            if (!Disconnected) {
+            if (!Disconnected) 
+            {
+                TotalTime.Add(DateTime.UtcNow.Subtract(LastCheckedTotalTime));
                 client.Close();
                 Disconnected = true;
                 ConnectionEventArgs eargs = new ConnectionEventArgs(false);
